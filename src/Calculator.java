@@ -77,17 +77,19 @@ public class Calculator {
                 throw new Exception("Числа должны быть в диапозоне от 1 до 10");
             System.out.println(calculate(intX, intY, action)); // вызов функции калькулятора с полученными значениями
         } else if (x.matches(regexAveCaesar) && y.matches(regexAveCaesar)) { // если в Х и Y состоят из символов X/V/I
-            AveCaesar newX = AveCaesar.valueOf(x); // enum для конвертации строки в число
-            int intX = newX.getIntView(); // получаем числовое представление
-            AveCaesar newY = AveCaesar.valueOf(y);
-            int intY = newY.getIntView();
-            if ((intX < 1 || intX > 10) || (intY < 1 || intY > 10)) // границы числа
-                throw new Exception("Числа должны быть в диапозоне от I до X");
-            int result = calculate(intX, intY, action); // получаем числовой результат
-            if (result < 1) { // условие задачи - результаты меньше 1 недопустимы
-                throw new Exception("В Римской системе нет отрицательных чисел");
-            } else {
+            try {
+                AveCaesar newX = AveCaesar.valueOf(x); // enum для конвертации строки в число
+                int intX = newX.getIntView(); // получаем числовое представление
+                AveCaesar newY = AveCaesar.valueOf(y);
+                int intY = newY.getIntView();
+                int result = calculate(intX, intY, action); // получаем числовой результат
+                if (result < 1) {
+                    System.out.println("В Римской системе нет отрицательных чисел");
+                    return;
+                }
                 System.out.println(intToAveCaesar(result)); // конвертируем числовой ответ в римский
+            } catch (Exception e) {
+                throw new Exception("Числа должны быть в диапозоне от I до X");
             }
         } else { // если введены не два целых числа или не два римских числа, то
             throw new Exception("Введите либо два целых числа, либо два римских числа");
